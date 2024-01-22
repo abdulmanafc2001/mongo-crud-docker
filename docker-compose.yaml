@@ -1,0 +1,25 @@
+ version: '3'
+ services:
+
+    mongo-crud:
+      build: 
+        context: .
+        dockerfile: Dockerfile
+      depends_on:
+        - mongo-db
+      restart: on-failure
+      environment: 
+        MONGO: mongodb://mongo-db:27017
+      ports:
+        - "8080:8080"     
+
+    mongo-db:
+        image: 'mongo:4.2.16-bionic'
+        ports:
+          - "27017:27017"
+        environment:
+          MONGO_INITDB_DATABASE: user
+          MONGO_INITDB_ROOT_USERNAME: mongo
+          MONGO_INITDB_ROOT_PASSWORD: mongo
+        volumes:
+          - ./db-data/mongo/:/data/db   
